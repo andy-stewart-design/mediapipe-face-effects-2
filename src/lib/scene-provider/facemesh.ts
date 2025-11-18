@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import type { Vec3 } from "../../types";
-import { FILTERED_TRIANGULATION } from "../constants/geometry";
+import { FILTERED_TRIANGULATION as TRIANGULATION } from "../constants/geometry";
 
-export class Wireframe {
+export class FaceMesh {
   private scene: THREE.Scene;
   private face: THREE.Mesh;
   private geometry: THREE.BufferGeometry;
@@ -13,9 +13,8 @@ export class Wireframe {
     this.scene = scene;
 
     this.geometry = new THREE.BufferGeometry();
-    this.geometry.setIndex(FILTERED_TRIANGULATION);
-
-    this.material = new THREE.MeshNormalMaterial({ wireframe: false });
+    this.geometry.setIndex(TRIANGULATION);
+    this.material = new THREE.MeshStandardMaterial({ wireframe: false });
 
     this.face = new THREE.Mesh(this.geometry, this.material);
     this.face.visible = false; // start hidden until we have landmarks
@@ -45,11 +44,10 @@ export class Wireframe {
       return;
     }
 
-    const count = landmarks.length;
-    const attr = this.getPositionAttr(count);
+    const attr = this.getPositionAttr(landmarks.length);
     const array = attr.array;
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < landmarks.length; i++) {
       array[i * 3 + 0] = landmarks[i].x;
       array[i * 3 + 1] = landmarks[i].y;
       array[i * 3 + 2] = landmarks[i].z;

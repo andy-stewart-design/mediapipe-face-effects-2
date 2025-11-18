@@ -28,28 +28,23 @@ export class CameraProvider {
     this.video = video;
 
     this.controller = gui.add(CONTROLS, "device", {});
+    const savedWebcam = localStorage.getItem("current_webcam");
+    const currentDevice =
+      devices?.find((d) => d.label === savedWebcam) ?? devices?.[0];
 
     if (devices) {
       const opts = Object.fromEntries(devices.map((d) => [d.label, d]));
       this.controller.options(opts);
-      this.controller.setValue(devices[0].label);
+      this.controller.setValue(currentDevice ?? devices[0]);
       this.controller.updateDisplay();
     }
 
     this.controller.onChange((device: MediaDeviceInfo) => {
       this.setupWebcam(device, width, height);
       localStorage.setItem("current_webcam", device.label);
-      const savedWebcam = localStorage.getItem("current_webcam");
-      console.log(savedWebcam);
     });
 
-    const savedWebcam = localStorage.getItem("current_webcam");
-
-    this.setupWebcam(
-      devices?.find((d) => d.label === savedWebcam) ?? devices?.[0],
-      width,
-      height
-    );
+    this.setupWebcam(currentDevice, width, height);
   }
 
   private async setupWebcam(

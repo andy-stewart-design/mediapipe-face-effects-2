@@ -23,8 +23,8 @@ async function main() {
 
   const animate = async () => {
     stats.begin();
-    const results = !camera.video.paused ? landmarker.detect(video) : null;
-    sceneManager.animate(results);
+    const res = !camera.video.paused ? landmarker.detect(video) : null;
+    sceneManager.animate(res?.landmarks, res?.zIndex);
     stats.end();
     stats.update();
     requestAnimationFrame(animate);

@@ -24,16 +24,30 @@ export class FaceLandmarksProvider {
       time ?? Date.now()
     );
 
-    const streamAr = videoElement.videoWidth / videoElement.videoHeight;
-    const isPortrait = window.innerWidth / window.innerHeight < streamAr;
     const videoAr = videoElement.videoWidth / videoElement.videoHeight;
-    const screenAr = isPortrait
+    const isHorizontallyCropped =
+      window.innerWidth / window.innerHeight < videoAr;
+    const screenAr = isHorizontallyCropped
       ? window.innerHeight / window.innerWidth
       : window.innerWidth / window.innerHeight;
-    const arOffsets = isPortrait
-      ? [screenAr * videoAr, videoAr]
-      : [1, screenAr];
+    const xOff = isHorizontallyCropped ? videoAr : screenAr;
+    const yOff = isHorizontallyCropped ? 1 : screenAr / videoAr;
 
-    return transformLandmarks(results.faceLandmarks[0], ...arOffsets);
+    const rawZ = results.facialTransformationMatrixes[0]?.data[14] || -40;
+    const depth = Math.max(1e-3, -rawZ); // avoid division by zero
+
+    // Choose a reference depth where scale = 1
+    const referenceDepth = 40; // tune this based on what "normal" distance is
+    const minScale = 0.25;
+    const maxScale = 2.5;
+
+    let scale = referenceDepth / depth; // Perspective-like scale: closer → bigger
+
+    console.log(Math.min(maxScale, Math.max(minScale, scale)));
+
+    return {
+      landmarks: transformLandmarks(results.faceLandmarks[0], xOff, yOff),
+      zIndex: Math.min(maxScale, Math.max(minScale, scale)),
+    };
   }
 }
