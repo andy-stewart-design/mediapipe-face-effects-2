@@ -34,6 +34,13 @@ export class SceneManager {
     this.renderer.toneMappingExposure = 1;
 
     new Environment(this.scene, this.renderer);
+    // this.scene.add(new THREE.AmbientLight(0xffffff, 1));
+    // const light = new THREE.PointLight(0xffffff, 2, 10);
+    // light.position.set(-0.5, 1, 0.5);
+    // const helper = new THREE.PointLightHelper(light, 1);
+    // this.scene.add(light);
+    // this.scene.add(helper);
+
     this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -2000, 2000);
     this.facemesh = new FaceMesh(this.scene);
     this.nose = new ClownNose(this.scene);
@@ -64,6 +71,8 @@ export class SceneManager {
 
   private resize() {
     const { clientWidth, clientHeight } = this.renderer.domElement;
+    console.log(clientWidth / clientHeight);
+
     this.width = clientWidth;
     this.height = clientHeight;
     this.sceneAspectRatio = this.width / this.height;
