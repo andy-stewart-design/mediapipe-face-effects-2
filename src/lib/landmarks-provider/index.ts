@@ -43,8 +43,6 @@ export class FaceLandmarksProvider {
 
     let scale = referenceDepth / depth; // Perspective-like scale: closer → bigger
 
-    console.log(Math.min(maxScale, Math.max(minScale, scale)));
-
     return {
       landmarks: transformLandmarks(results.faceLandmarks[0], xOff, yOff),
       zIndex: Math.min(maxScale, Math.max(minScale, scale)),
