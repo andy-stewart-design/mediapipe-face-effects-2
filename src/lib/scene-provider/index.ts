@@ -66,11 +66,8 @@ export class SceneManager {
   }
 
   private updateCamera() {
-    const videoAr = this.sceneAspectRatio;
-    console.log(this.sceneAspectRatio);
-
-    this.camera.top = 1 * videoAr;
-    this.camera.bottom = -1 * videoAr;
+    this.camera.top = 1 * this.sceneAspectRatio;
+    this.camera.bottom = -1 * this.sceneAspectRatio;
     this.camera.left = -1;
     this.camera.right = 1;
     this.camera.updateProjectionMatrix();

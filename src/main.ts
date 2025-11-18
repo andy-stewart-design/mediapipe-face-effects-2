@@ -6,6 +6,8 @@ import { createStats } from "./lib/utils/stats";
 import "./style.css";
 
 const DEBUG = false;
+const width = 960;
+const height = 720;
 
 async function main() {
   const video = document.querySelector<HTMLVideoElement>(".input");
@@ -16,8 +18,8 @@ async function main() {
   if (!video || !canvas) return;
 
   const landmarker = await FaceLandmarksProvider.init();
-  const camera = await CameraProvider.init(video, gui, 960, 720);
-  const sceneManager = new SceneManager(canvas, 960 / 720, DEBUG);
+  const camera = await CameraProvider.init({ video, gui, width, height });
+  const sceneManager = new SceneManager(canvas, width / height, DEBUG);
 
   const animate = async () => {
     stats.begin();
