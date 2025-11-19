@@ -71,7 +71,6 @@ export class SceneManager {
 
   private resize() {
     const { clientWidth, clientHeight } = this.renderer.domElement;
-    console.log(clientWidth / clientHeight);
 
     this.width = clientWidth;
     this.height = clientHeight;

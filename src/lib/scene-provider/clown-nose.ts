@@ -25,12 +25,14 @@ export class ClownNose {
     if (!v) return;
 
     const ratio = window.innerWidth / window.innerHeight;
-    const offset =
+    const scaleOffset =
       window.innerWidth / window.innerHeight > 4 / 3 ? ratio : 1.333;
-    const scale = z * offset;
+    const scale = z * scaleOffset;
+    const yDistanceOffset = z * 0.05;
+    const yScreenWidthOffset = Math.max(0, ratio - 1) * 0.0375 * z;
 
     this.nose.position.x = v.x;
-    this.nose.position.y = v.y + z * 0.075;
+    this.nose.position.y = v.y + yDistanceOffset + yScreenWidthOffset;
     this.nose.position.z = v.z;
     this.nose.scale.set(scale, scale, scale);
   }
