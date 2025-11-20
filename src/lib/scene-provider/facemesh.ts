@@ -14,7 +14,7 @@ export class FaceMesh {
 
     this.geometry = new THREE.BufferGeometry();
     this.geometry.setIndex(TRIANGULATION);
-    this.material = new THREE.MeshStandardMaterial({ wireframe: false });
+    this.material = new THREE.MeshNormalMaterial({ wireframe: false });
 
     this.face = new THREE.Mesh(this.geometry, this.material);
     this.face.visible = false; // start hidden until we have landmarks

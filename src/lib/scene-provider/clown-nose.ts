@@ -11,8 +11,8 @@ export class ClownNose {
     this.scene = scene;
 
     this.geometry = new THREE.SphereGeometry(0.1);
-    this.material = new THREE.MeshStandardMaterial({
-      color: "red",
+    this.material = new THREE.MeshNormalMaterial({
+      // color: "red",
       wireframe: false,
     });
 
